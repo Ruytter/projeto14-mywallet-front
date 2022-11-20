@@ -127,6 +127,7 @@ button {
   font-size: 20px;
   line-height: 23px;
   color: #ffffff;
+  cursor: pointer;
 }
 
 footer {
@@ -150,6 +151,7 @@ footer button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  cursor: pointer;
 }
 footer p {
   text-align: start;

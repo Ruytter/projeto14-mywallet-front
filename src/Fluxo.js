@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "./auth";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Fluxo() {
+  const { user } = useContext(AuthContext)
   const [classe, setClasse] = useState("hide");
-  const [name, setName] = useState("");
 
   return (
     <Main>
       <span>
-        <p>Olá, Fulano</p>
+        <p>{user.u.message}</p>
         <Link to={"/"}>
         <ion-icon name="log-out-outline"></ion-icon>
         </Link>

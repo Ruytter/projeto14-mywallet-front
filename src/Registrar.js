@@ -1,21 +1,26 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "./auth";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Registrar(props) {
+  const { user } = useContext(AuthContext)
   const navigate = useNavigate()
   const { classe }= props
   const [name, setName] = useState("");
+  const token = user.u.token;
   
 
   function Entrada(e) {
     e.preventDefault();
+
     navigate("/saldo")
   }
 
   function Saida(e) {
     e.preventDefault();
+
     navigate("/saldo")
   }
 

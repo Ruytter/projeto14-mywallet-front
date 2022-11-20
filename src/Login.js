@@ -1,23 +1,54 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "./auth";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Sign(props) {
+  const { signin } = useContext(AuthContext)
   const navigate = useNavigate();
   const { classe } = props;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [confimpass, setConfimpass] = useState("");
+  const [password, setSenha] = useState("");
+  const [confirmpass, setConfimpass] = useState("");
 
   function Cadastrar(e) {
     e.preventDefault();
+    if(password !== confirmpass){
+      return alert("As senha devem ser iguais")
+    }
+    const URL =
+            "http://localhost:5000/sign-up";
+      const body = {
+        name,
+        email,
+        password
+      };
+      const promise = axios.post(URL, body);
+      promise.then((user) => {
+        console.log(user.data)
+     });
+    promise.catch((err) => {
+      console.log(err.response.data);
+    });
     navigate(`/`);
   }
-
   function Entrar(e) {
     e.preventDefault();
+    const URL =
+            "http://localhost:5000/";
+      const body = {
+        email,
+        password
+      };
+      const promise = axios.post(URL, body);
+      promise.then((user) => {
+        signin(user.data)
+     });
+    promise.catch((err) => {
+      console.log(err.response.data);
+    });
   }
 
   return (
@@ -48,7 +79,7 @@ export default function Sign(props) {
           type="password"
           id="pass"
           nome="pass"
-          value={senha}
+          value={password}
           onChange={(e) => setSenha(e.target.value)}
           placeholder="Senha"
           required
@@ -58,7 +89,7 @@ export default function Sign(props) {
           type="password"
           id="confirmpass"
           nome="confirmpass"
-          value={senha}
+          value={confirmpass}
           onChange={(e) => setConfimpass(e.target.value)}
           placeholder="Confirme a senha"
           required
