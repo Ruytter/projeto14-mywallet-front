@@ -42,7 +42,7 @@ export default function Sign(props) {
         email,
         password
       };
-      const promise = axios.post(URL, body);
+      const promise = axios.post(URL, body,);
       promise.then((user) => {
         signin(user.data)
      });

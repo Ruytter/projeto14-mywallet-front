@@ -8,18 +8,52 @@ export default function Registrar(props) {
   const { user } = useContext(AuthContext)
   const navigate = useNavigate()
   const { classe }= props
-  const [name, setName] = useState("");
+  const [valor, setValor] = useState("");
+  const [descricao, setDescricao] = useState("");
   const token = user.u.token;
   
 
   function Entrada(e) {
     e.preventDefault();
+    const URL =
+            "http://localhost:5000/entrada";
+      const body = {
+        entrada: valor,
+        descricao
+      };
+      const promise = axios.post(URL, body,
+        {headers: {
+          'Authorization': `Bearer ${user.u.token}`
+        }});
+      promise.then((status) => {
+        console.log(status)
+     });
+    promise.catch((err) => {
+      console.log(err.response.data);
+    });
 
     navigate("/saldo")
   }
 
   function Saida(e) {
     e.preventDefault();
+
+    const URL =
+            "http://localhost:5000/saida";
+      const body = {
+        saida: valor,
+        descricao
+      };
+      const promise = axios.post(URL, body,
+        {headers: {
+          'Authorization': `Bearer ${user.u.token}`
+        }});
+      promise.then((status) => {
+        console.log(status)
+     });
+    promise.catch((err) => {
+      console.log(err.response.data);
+    });
 
     navigate("/saldo")
   }
@@ -31,8 +65,18 @@ export default function Registrar(props) {
         <p className={classe === "hide" ? "" : "hide"}>Nova saida</p>
       </span>
       <section>
-        <input type="number" placeholder="Valor" />
-        <input type="text" placeholder="Descrição"/>
+        <input type="number" 
+        id="valor"
+        name="valor"
+        value={valor}
+        onChange={(e) => setValor(e.target.value)}
+        placeholder="Valor" />
+        <input type="text" 
+        id="descricao"
+        name="descricao"
+        value={descricao}
+        onChange={(e) => setDescricao(e.target.value)}
+        placeholder="Descrição"/>
         <button className={classe} onClick={(e) => Entrada(e) }>Salvar entrada</button>
         <button className={classe === "hide" ? "" : "hide"} onClick={(e) => Saida(e) }>Salvar saída</button>
       </section>

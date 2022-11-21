@@ -1,41 +1,95 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./auth";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Fluxo() {
-  const { user } = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
   const [classe, setClasse] = useState("hide");
+  const [fluxo, setFluxo] = useState({});
+  const [saldo, setSaldo]= useState(0)
+  const [poun, setPoun] = useState()
+
+  useEffect(() => {
+    const URL = `http://localhost:5000/fluxo`;
+
+    const promisse = axios.get(URL, {
+      headers: {
+        Authorization: `Bearer ${user.u.token}`,
+      },
+    });
+
+    promisse.then((res) => {
+      const entradas = res.data.entradas;
+      const saidas = res.data.saidas;
+      if (entradas.length !== 0 || saidas.length !== 0) {
+        let somaEntradas = 0
+        let somaSaidas = 0
+        if (entradas.length !== 0 ) {
+          entradas.forEach(entrada =>
+          somaEntradas += Number(entrada.entrada)
+          );
+        }
+
+        if (saidas.length !== 0 ) {
+          saidas.forEach(saida =>
+          somaSaidas += Number(saida.saida)
+          );
+        }
+
+        const saldo = somaEntradas - somaSaidas
+        if (saldo<0){
+          setPoun("red")
+        }else{
+          setPoun("verde")
+        }
+        setSaldo(saldo)
+        console.log(somaEntradas)
+        console.log(somaSaidas)
+        console.log(saldo)
+        setFluxo(res.data);
+        setClasse("");
+      }
+    });
+
+    promisse.catch((err) => {
+      console.log(err.response.data);
+    });
+  }, []);
 
   return (
     <Main>
       <span>
         <p>{user.u.message}</p>
         <Link to={"/"}>
-        <ion-icon name="log-out-outline"></ion-icon>
+          <ion-icon name="log-out-outline"></ion-icon>
         </Link>
       </span>
       <section>
         <div>
           <ul className={classe}>
-            <li>
-              <p>30/11 Almoço mãe</p> <p> 39,90</p>
-            </li>
-            <li>
-              <p>27/11 Mercado</p> <p> 542,54</p>
-            </li>
-            <li>
-              <p>26/11 Compras churrasco</p> <p> 67,60</p>
-            </li>
-            <li>
-              <p>20/11 Empréstimo Maria</p> <p> 500,00</p>
-            </li>
-            <li>
-              <p>15/11 Salário</p> <p> 3000,00</p>
-            </li>
-            <li class="saldo">
-              <h3>SALDO</h3> <p>2849,96</p>
+            {fluxo.saidas &&
+              fluxo.saidas.map((saida, index) => (
+                <li>
+                  <p>
+                    {saida.date} {saida.descricao}
+                  </p>{" "}
+                  <p className="red"> {saida.saida}</p>
+                </li>
+              ))}
+
+            {fluxo.entradas &&
+              fluxo.entradas.map((entrada, index) => (
+                <li>
+                  <p>
+                    {entrada.date} {entrada.descricao}
+                  </p>{" "}
+                  <p className="verde"> {entrada.entrada}</p>
+                </li>
+              ))}
+            <li className="saldo">
+              <h3>SALDO</h3> <p className={poun}>{saldo}</p>
             </li>
           </ul>
           <p className={classe === "hide" ? "" : "hide"}>

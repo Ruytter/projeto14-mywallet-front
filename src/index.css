@@ -18,3 +18,9 @@ code {
 .hide {
   display: none;
 }
+.verde{
+  color: #03AC00;
+}
+.red{
+  color: #C70000;
+}
