@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "./auth";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Fluxo() {
-  const { user } = useContext(AuthContext);
+  const localUser = (JSON.parse(localStorage.getItem('mywalletUser')))
   const [classe, setClasse] = useState("hide");
   const [fluxo, setFluxo] = useState({});
   const [saldo, setSaldo]= useState(0)
@@ -16,7 +15,7 @@ export default function Fluxo() {
 
     const promisse = axios.get(URL, {
       headers: {
-        Authorization: `Bearer ${user.u.token}`,
+        Authorization: `Bearer ${localUser.token}`,
       },
     });
 
@@ -45,9 +44,6 @@ export default function Fluxo() {
           setPoun("verde")
         }
         setSaldo(saldo)
-        console.log(somaEntradas)
-        console.log(somaSaidas)
-        console.log(saldo)
         setFluxo(res.data);
         setClasse("");
       }
@@ -56,12 +52,12 @@ export default function Fluxo() {
     promisse.catch((err) => {
       console.log(err.response.data);
     });
-  }, []);
+  }, [localUser]);
 
   return (
     <Main>
       <span>
-        <p>{user.u.message}</p>
+        <p>olá, {localUser.user}</p>
         <Link to={"/"}>
           <ion-icon name="log-out-outline"></ion-icon>
         </Link>
@@ -71,7 +67,7 @@ export default function Fluxo() {
           <ul className={classe}>
             {fluxo.saidas &&
               fluxo.saidas.map((saida, index) => (
-                <li>
+                <li key={index}>
                   <p>
                     {saida.date} {saida.descricao}
                   </p>{" "}
@@ -81,7 +77,7 @@ export default function Fluxo() {
 
             {fluxo.entradas &&
               fluxo.entradas.map((entrada, index) => (
-                <li>
+                <li key={index}>
                   <p>
                     {entrada.date} {entrada.descricao}
                   </p>{" "}

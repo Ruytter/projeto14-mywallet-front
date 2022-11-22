@@ -10,11 +10,13 @@ export default function Registrar(props) {
   const { classe }= props
   const [valor, setValor] = useState("");
   const [descricao, setDescricao] = useState("");
-  const token = user.u.token;
   
 
   function Entrada(e) {
     e.preventDefault();
+    if (valor === ""){
+      return alert("O Valor não pode ser vazio")
+    }
     const URL =
             "http://localhost:5000/entrada";
       const body = {
@@ -37,6 +39,9 @@ export default function Registrar(props) {
 
   function Saida(e) {
     e.preventDefault();
+    if (valor === ""){
+      return alert("O Valor não pode ser vazio")
+    }
 
     const URL =
             "http://localhost:5000/saida";
