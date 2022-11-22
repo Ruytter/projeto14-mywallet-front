@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Fluxo() {
-  const localUser = (JSON.parse(localStorage.getItem('mywalletUser')))
+  const localUser = JSON.parse(localStorage.getItem("mywalletUser"));
   const [classe, setClasse] = useState("hide");
   const [fluxo, setFluxo] = useState({});
-  const [saldo, setSaldo]= useState(0)
-  const [poun, setPoun] = useState()
+  const [saldo, setSaldo] = useState(0);
+  const [poun, setPoun] = useState();
 
   useEffect(() => {
     const URL = `http://localhost:5000/fluxo`;
@@ -23,27 +23,25 @@ export default function Fluxo() {
       const entradas = res.data.entradas;
       const saidas = res.data.saidas;
       if (entradas.length !== 0 || saidas.length !== 0) {
-        let somaEntradas = 0
-        let somaSaidas = 0
-        if (entradas.length !== 0 ) {
-          entradas.forEach(entrada =>
-          somaEntradas += Number(entrada.entrada)
+        let somaEntradas = 0;
+        let somaSaidas = 0;
+        if (entradas.length !== 0) {
+          entradas.forEach(
+            (entrada) => (somaEntradas += Number(entrada.entrada))
           );
         }
 
-        if (saidas.length !== 0 ) {
-          saidas.forEach(saida =>
-          somaSaidas += Number(saida.saida)
-          );
+        if (saidas.length !== 0) {
+          saidas.forEach((saida) => (somaSaidas += Number(saida.saida)));
         }
 
-        const saldo = somaEntradas - somaSaidas
-        if (saldo<0){
-          setPoun("red")
-        }else{
-          setPoun("verde")
+        const saldo = somaEntradas - somaSaidas;
+        if (saldo < 0) {
+          setPoun("red");
+        } else {
+          setPoun("verde");
         }
-        setSaldo(saldo)
+        setSaldo(saldo);
         setFluxo(res.data);
         setClasse("");
       }
@@ -69,8 +67,9 @@ export default function Fluxo() {
               fluxo.saidas.map((saida, index) => (
                 <li key={index}>
                   <p>
-                    {saida.date} {saida.descricao}
-                  </p>{" "}
+                    {saida.date}
+                    <b> {saida.descricao}</b>
+                  </p>
                   <p className="red"> {saida.saida}</p>
                 </li>
               ))}
@@ -79,8 +78,9 @@ export default function Fluxo() {
               fluxo.entradas.map((entrada, index) => (
                 <li key={index}>
                   <p>
-                    {entrada.date} {entrada.descricao}
-                  </p>{" "}
+                    {entrada.date}
+                    <b> {entrada.descricao}</b>
+                  </p>
                   <p className="verde"> {entrada.entrada}</p>
                 </li>
               ))}
@@ -132,5 +132,12 @@ const Main = styled.div`
   align-items: center;
   section {
     background-color: white;
+    b {
+      font-family: "Raleway", sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+      color: #000000;
+    }
   }
 `;
