@@ -9,7 +9,6 @@ export default function Fluxo() {
   const [fluxo, setFluxo] = useState({});
   const [saldo, setSaldo] = useState(0);
   const [poun, setPoun] = useState();
-
   useEffect(() => {
     const URL = `http://localhost:5000/fluxo`;
 
@@ -50,7 +49,7 @@ export default function Fluxo() {
     promisse.catch((err) => {
       console.log(err.response.data);
     });
-  }, [localUser]);
+  }, []);
 
   return (
     <Main>
@@ -123,7 +122,7 @@ export default function Fluxo() {
 
 const Main = styled.div`
   width: 414px;
-  height: 700px;
+  height: 736px;
   margin: -75px auto;
   background: #8c11be;
   display: flex;
@@ -132,12 +131,15 @@ const Main = styled.div`
   align-items: center;
   section {
     background-color: white;
-    b {
+    p {
       font-family: "Raleway", sans-serif;
       font-weight: 400;
       font-size: 16px;
       line-height: 19px;
-      color: #000000;
+      b {
+        font-weight: 400;
+        color: #000000;
+      }
     }
   }
 `;

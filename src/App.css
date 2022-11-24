@@ -6,7 +6,7 @@
 
 main {
   width: 414px;
-  height: 700px;
+  height: 100%;
   margin: -75px auto;
   background: #8c11be;
   display: flex;
@@ -51,7 +51,7 @@ section {
 
 section div {
   width: 326px;
-  height: 446px;
+  height: 500px;
   background: #ffffff;
   display: flex;
   justify-content: center;
@@ -70,7 +70,7 @@ section div p {
 ul {
   position: relative;
   width: 326px;
-  height: 446px;
+  height: 500px;
   background: #ffffff;
   border-radius: 5px;
   font-family: "Raleway", sans-serif;

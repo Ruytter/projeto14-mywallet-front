@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { AuthContext } from "./auth";
+import { AuthContext } from "./auth.js";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -120,7 +120,7 @@ export default function Sign(props) {
 
 const Main = styled.div`
   width: 414px;
-  height: 700px;
+  height: 736px;
   margin: -75px auto;
   background: #8c11be;
   display: flex;

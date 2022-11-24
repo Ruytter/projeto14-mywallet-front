@@ -3,7 +3,7 @@ import Fluxo from "./Fluxo";
 import Registrar from "./Registrar";
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AuthProvider from "./auth";
+import AuthProvider from "./auth.js";
 import styled from "styled-components";
 import "./App.css";
 
